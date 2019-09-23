@@ -8,6 +8,7 @@ Matrix delim(Matrix &A)
   for (int i = 0; i != (A.size * A.size); i++)
   {
     A.value[i]=A.value[i]/A.value[A.mymap[i / A.size] - A.value];
+    A.rvalue[i]=A.rvalue[i]/A.value[A.mymap[i / A.size] - A.value];
   }
   return A;
 }
@@ -20,8 +21,9 @@ Matrix vych(Matrix A, int k)
     //columns
     for (int j = 0; j != A.size; j++)
     {
-      A.value[(A.mymap[i] - A.value)+j]= A.value[(A.mymap[i] - A.value)+j]-A.value[(A.mymap[k] - A.value)+j];
+      A.value[(A.mymap[i] - A.value)+j]-= A.value[(A.mymap[k] - A.value)+j];
     }
+    A.rvalue[i] -= A.rvalue[k];
   }
   return A;
 }
@@ -34,7 +36,7 @@ void GaussRight(Matrix& A)
     //search max in column
     double max = A.value[0];
     int maxstring = 0;
-    for ()
+    for (int i = 0; i != A.size; i++)
     {
       if (A.value[i] > max)
       {

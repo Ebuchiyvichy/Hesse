@@ -10,9 +10,10 @@ public:
   double **mymap;
   int size;
 public:
-  Matrix ()
+  Matrix (int s)
   {
-    int i = 1;
+    size = s;
+    int i = 0;
     value = new double[size*size];
     mymap = new double*[size];
     rvalue = new double[size];
@@ -42,7 +43,6 @@ public:
   Matrix (Matrix& A)
   {
     Matrix C;
-    int i = 1;
     C.value = new double[A.size*A.size];
     C.mymap = new double*[A.size];
     C.rvalue = new double[size];
@@ -60,7 +60,6 @@ public:
       A.rvalue++;
       C.rvalue++;
     }
-    return C;
   }
 
   void Tranc(Matrix& A)
@@ -79,10 +78,18 @@ public:
       }
     }
   }
-
-Matrix operator * (Matrix A, Matrix B)
-{
-
+  void print(Matrix A)
+  {
+    for (int i = 0; i != (A.size*A.size); i++)
+    {
+      std::cout << A.value[i];
+      if (i % (A.size - 1) == 0)
+      {
+        std::cout << "\n";
+      }
+    }
+  }
+  
   ~Matrix()
   {
     delete[] value;
