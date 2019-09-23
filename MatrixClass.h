@@ -10,9 +10,11 @@ public:
   double **mymap;
   int size;
 public:
-  Matrix (int s)
+  Matrix ()
   {
-    size = s;
+    std::ifstream file;
+    file.open("matrixexample.txt");
+    file >> size;
     int i = 0;
     value = new double[size*size];
     mymap = new double*[size];
@@ -23,8 +25,6 @@ public:
       mymap++;
     }
     double number;
-    std::ifstream file;
-    file.open("matrixexample");
     while (!file.eof())
     {
       for (int i = 0; i != size; i++)
@@ -37,11 +37,12 @@ public:
       *rvalue = number;
       rvalue++;
     }
+    std::cout<< "Class ready to go\n";
     file.close();
   }
 
-  Matrix (Matrix& A)
-  {
+ /* Matrix (Matrix& A)
+{
     Matrix C;
     C.value = new double[A.size*A.size];
     C.mymap = new double*[A.size];
@@ -54,13 +55,13 @@ public:
     }
     while (*C.mymap)
     {
-      *C.mymap = &C.value[size*i];
+      *C.mymap = &C.value[size];
       C.mymap++;
       C.rvalue = A.rvalue;
       A.rvalue++;
       C.rvalue++;
     }
-  }
+  } */
 
   void Tranc(Matrix& A)
   { // i - string, j - column
@@ -89,7 +90,9 @@ public:
       }
     }
   }
-  
+
+
+
   ~Matrix()
   {
     delete[] value;
