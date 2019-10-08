@@ -43,29 +43,34 @@ void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 	Tranc();
 */		
 	Matrix E(R.size, 1);
-	
 	for (int k = R.size - 1; k >= 0; k--)
 	{
 		E.value[E.mymap[k] - E.value + k] = E.value[E.mymap[k] - E.value + k] / R.value[R.mymap[k] - R.value + k];
-		for (int j = 0; j < k; j++)
-			E.value[E.mymap[j] - E.value + k] = E.value[E.mymap[j] - E.value + k] - R.value[R.mymap[j] - R.value + k] * E.value[E.mymap[k] - E.value + k] / R.value[R.mymap[j] - R.value + j];
+		for (int j = k - 1; j >= 0; j--)
+			{
+				for (int i = R.size - 1; i > j; i--)
+					E.value[E.mymap[j] - E.value + k] -= R.value[R.mymap[j] - R.value + i] * E.value[E.mymap[i] - E.value + k];
+				E.value[E.mymap[j] - E.value + k] /= R.value[R.mymap[j] - R.value + j];
+			}	
 	}
-
-/*	for (int k = R.size - 1; k >= 0; k--)
+/*	for (int k = 0; k < R.size; k++)
 	{
 		value[mymap[k] - value + k] = value[mymap[k] - value + k] / R.value[R.mymap[k] - R.value + k];
-		for (int j = 0; j < k; j++)
-			value[mymap[j] - value + k] = value[mymap[j] - value + k] - R.value[R.mymap[j] - R.value + k] * value[mymap[k] - value + k] / R.value[R.mymap[j] - R.value + j];
+		for (int j = k - 1; j >= 0; j--)
+		{
+			for (int i = R.size - 1; i > j; i--)
+				value[mymap[j] - value + k] -= R.value[R.mymap[j] - R.value + i] * value[mymap[i] - value + k];
+			value[mymap[j] - value + k] /= R.value[R.mymap[j] - R.value + j];
+		}
 	}
-*/
-	
+	*/
 	for (int i = 0; i < R.size; i++)
 	{
 		for (int j = 0; j < R.size; j++)
 		{
 			value[mymap[i] - value + j] = 0;
 			for (int k = 0; k < R.size; k++)
-				value[mymap[i] - value + j] = R.value[R.mymap[i] - R.value + k] * T.value[T.mymap[k] - T.value + j];
+				value[mymap[i] - value + j] = E.value[E.mymap[i] - E.value + k] * T.value[T.mymap[k] - T.value + j];
 		}
 	}
 }
