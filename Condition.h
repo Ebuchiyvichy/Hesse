@@ -19,7 +19,9 @@ double	*multi_vect(double* I, const Matrix& T)
 //find inverse matrix
 void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 {
-/*	double *x;
+/*	
+	//with Hausse
+	double *x;
 	double *y;
 	x = new double [T.size];
 	y = new double [T.size];
@@ -41,7 +43,9 @@ void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 	}
 	}
 	Tranc();
-*/		
+*/	
+
+	//with inverse triangle matrix
 	Matrix E(R.size, 1);
 	for (int k = R.size - 1; k >= 0; k--)
 	{
