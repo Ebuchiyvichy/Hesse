@@ -1,35 +1,33 @@
 #include "Estimation.h"
 
- int	main()
+int	main()
 {
 	Matrix	A;
 	Matrix	R;
 	Matrix	A_cpy;	//copy of A matrix for inverse Gauss
-	Matrix	T(R.size,1);
+	Matrix	T(R.size, 1);
 	double	*b_ = NULL;
 	double	*x = NULL;
 
-/*	std::cout << "matrix A:" << std::endl;
+	std::cout << "matrix A:" << std::endl;
 	A.print();
 	std::cout << "vector b:" << std::endl;
 	for (int j = 0; j < A.size; j++)
-	{
 		std::cout << std::setw(8) << A.rvalue[j] << std::endl;
-	}
 	std::cout << std::endl;
-*/
+
 	//QR
 	T.QR_find_x(R);
 	if (degenerate_matrix(R) == false)
 	{
 		b_ = multi_vect(R.rvalue, T);
 		x = find_x(R, b_);
-//		std::cout << "Vector x in QR:" << std::endl;
-//		for (int j = 0; j < A.size; j++)
-//		{
-//			std::cout << std::setw(8) << x[j] << std::endl;
-//		}
-//		std::cout << std::endl;
+		std::cout << "Vector x in QR:" << std::endl;
+		for (int j = 0; j < A.size; j++)
+		{
+			std::cout << std::setw(8) << x[j] << std::endl;
+		}
+		std::cout << std::endl;
 
 		//find inverse matrix with QR
 		Matrix A_(A.size, 1);
@@ -49,7 +47,7 @@
 		std::cout << std::endl;
 
 		//find residual vector
-		std::cout << "Residual vector with cube norme = " << cube_vect_norm(diff_vector(A.rvalue,multi_vect(x, A),A.size), A.size) << std::endl;
+		std::cout << "Residual vector with cube norme = " << cube_vect_norm(diff_vector(A.rvalue, multi_vect(x, A), A.size), A.size) << std::endl;
 		std::cout << std::endl;
 		std::cout << "Residual vector with octahedral norme = " << octah_vect_norm(diff_vector(A.rvalue, multi_vect(x, A), A.size), A.size) << std::endl;
 		std::cout << std::endl;
@@ -58,12 +56,12 @@
 
 	}
 	else
-		std::cout << "Wrong Matrix" << std::endl; 
-	
+		std::cout << "Wrong Matrix" << std::endl;
+
 	//delete variable of QR
 	if (x)
 		delete[] x;
-	if(b_)
+	if (b_)
 		delete[] b_;
 
 	//Gauss 
@@ -77,11 +75,10 @@
 		reversematrixgauss(A_cpy, E);
 		std::cout << "Inverse matrix with Gauss method A_:" << std::endl;
 		E.print();
-
 	}
 	else
 		std::cout << "Wrong Matrix" << std::endl;
 
-	system ("pause");
-	return (0); 
+	system("pause");
+	return (0);
 }

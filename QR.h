@@ -1,3 +1,4 @@
+#pragma once
 
 #include "MatrixClass.h"
 
@@ -17,7 +18,7 @@ bool	degenerate_matrix(const Matrix& R)
 	return (false);
 }
 
-// (reverse Hause)
+// reverse Hause
 double	*find_x(const Matrix& A, double *b_)
 {
 	double	*x = new double[A.size];
@@ -43,21 +44,21 @@ void Matrix::QR_find_x(Matrix& A)
 	{
 		for (int i = k + 1; i < size; i++)
 		{
-			if (fabs(A.value[A.mymap[k]-A.value +i]) > 10e-8)
+			if (fabs(A.value[A.mymap[k] - A.value + i]) > 10e-8)
 			{
-				c = A.value[A.mymap[k] - A.value +k] / sqrt(A.value[A.mymap[k] - A.value + k] * A.value[A.mymap[k] - A.value + k] + A.value[A.mymap[i] - A.value + k] * A.value[A.mymap[i] - A.value + k]);
+				c = A.value[A.mymap[k] - A.value + k] / sqrt(A.value[A.mymap[k] - A.value + k] * A.value[A.mymap[k] - A.value + k] + A.value[A.mymap[i] - A.value + k] * A.value[A.mymap[i] - A.value + k]);
 				s = A.value[A.mymap[i] - A.value + k] / sqrt(A.value[A.mymap[k] - A.value + k] * A.value[A.mymap[k] - A.value + k] + A.value[A.mymap[i] - A.value + k] * A.value[A.mymap[i] - A.value + k]);
 				for (int j = 0; j <= i; j++) // change T-matrix
 				{
-					tmp = value[mymap[k]-value+j];
-					value[mymap[k]-value+j] = value[mymap[k]-value+j] * c + value[mymap[i]-value+j] * s;
-					value[mymap[i]-value+j] = c * value[mymap[i]-value+j] - s * tmp;
+					tmp = value[mymap[k] - value + j];
+					value[mymap[k] - value + j] = value[mymap[k] - value + j] * c + value[mymap[i] - value + j] * s;
+					value[mymap[i] - value + j] = c * value[mymap[i] - value + j] - s * tmp;
 				}
 				for (int j = k; j < size; j++) // change A-matrix
 				{
-					tmp = A.value[A.mymap[k]-A.value +j];
-					A.value[A.mymap[k]-A.value +j] = c * A.value[A.mymap[k]-A.value +j] + s * A.value[A.mymap[i]-A.value +j];
-					A.value[A.mymap[i]-A.value +j] = c * A.value[A.mymap[i]-A.value +j] - s * tmp;
+					tmp = A.value[A.mymap[k] - A.value + j];
+					A.value[A.mymap[k] - A.value + j] = c * A.value[A.mymap[k] - A.value + j] + s * A.value[A.mymap[i] - A.value + j];
+					A.value[A.mymap[i] - A.value + j] = c * A.value[A.mymap[i] - A.value + j] - s * tmp;
 				}
 			}
 		}

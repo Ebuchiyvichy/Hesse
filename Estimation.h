@@ -1,3 +1,4 @@
+#pragma once
 #include "Condition.h"
 
 //find octahedral norme of vector
@@ -5,7 +6,7 @@ double	octah_vect_norm(double *x, int size)
 {
 	double	norm = 0;
 
-	for (int i = 0; i < size ; i++)
+	for (int i = 0; i < size; i++)
 		norm += fabs(x[i]);
 	return (norm);
 }
@@ -80,7 +81,7 @@ double	cube_estimate_number(double *b, const Matrix& R, const Matrix& T)
 		delete[] b_;
 	}
 	db = abs_diff_vector(tmp, b, T.size);
-	return ((my_dx/cube_vect_norm(x, T.size)) / (cube_vect_norm(db, T.size)/cube_vect_norm(b, T.size)));
+	return ((my_dx / cube_vect_norm(x, T.size)) / (cube_vect_norm(db, T.size) / cube_vect_norm(b, T.size)));
 }
 
 //for octahedral norme

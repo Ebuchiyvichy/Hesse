@@ -1,4 +1,6 @@
+#pragma once
 #include "QR.h"
+#include "MatrixClass.h"
 
 //multiply matrix * vector
 double	*multi_vect(double* I, const Matrix& T)
@@ -10,44 +12,65 @@ double	*multi_vect(double* I, const Matrix& T)
 		tmp[i] = 0;
 	for (int j = 0; j < T.size; j++)
 		for (int i = 0; i < T.size; i++)
-			tmp[j] += T.value[T.mymap[j]-T.value+i] * I[i];
+			tmp[j] += T.value[T.mymap[j] - T.value + i] * I[i];
 	return (tmp);
 }
 
 //find inverse matrix
- void Matrix::inverse_matrix( const Matrix& R, Matrix& T)
+void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 {
-	double *x;
+/*	double *x;
 	double *y;
 	x = new double [T.size];
 	y = new double [T.size];
+	Matrix E(R.size, 1);
 
-	T.Tranc();
 	for (int i = 0; i < T.size; i++)
 	{
-		for (int j = 0; j < T.size; j++)
+	for (int j = 0; j < T.size; j++)
+	{
+	if (j == i)
+	y[j] = 1;
+	else
+	y[j] = 0;
+	}
+	x = find_x(R, multi_vect(y, T));
+	for (int j = 0; j < T.size; j++)
+	{
+	value[mymap[i] - value + j] = x[j];
+	}
+	}
+	Tranc();
+*/		
+	Matrix E(R.size, 1);
+	
+	for (int k = R.size - 1; k >= 0; k--)
+	{
+		E.value[E.mymap[k] - E.value + k] = E.value[E.mymap[k] - E.value + k] / R.value[R.mymap[k] - R.value + k];
+		for (int j = 0; j < k; j++)
+			E.value[E.mymap[j] - E.value + k] = E.value[E.mymap[j] - E.value + k] - R.value[R.mymap[j] - R.value + k] * E.value[E.mymap[k] - E.value + k] / R.value[R.mymap[j] - R.value + j];
+	}
+
+/*	for (int k = R.size - 1; k >= 0; k--)
+	{
+		value[mymap[k] - value + k] = value[mymap[k] - value + k] / R.value[R.mymap[k] - R.value + k];
+		for (int j = 0; j < k; j++)
+			value[mymap[j] - value + k] = value[mymap[j] - value + k] - R.value[R.mymap[j] - R.value + k] * value[mymap[k] - value + k] / R.value[R.mymap[j] - R.value + j];
+	}
+*/
+	
+	for (int i = 0; i < R.size; i++)
+	{
+		for (int j = 0; j < R.size; j++)
 		{
-			if (j == i)
-				y[j] = 1;
-			else
-				y[j] = 0;
-		}
-		x = find_x(R, multi_vect(y, T));
-				std::cout << "Vector x in QR:" << std::endl;
-				for (int j = 0; j < T.size; j++)
-				{
-					std::cout << std::setw(8) << x[j] << std::endl;
-				}
-				std::cout << std::endl;
-		for (int j = 0; j < T.size; j++)
-		{
-			value[mymap[i] - value + j] = x[j];
+			value[mymap[i] - value + j] = 0;
+			for (int k = 0; k < R.size; k++)
+				value[mymap[i] - value + j] = R.value[R.mymap[i] - R.value + k] * T.value[T.mymap[k] - T.value + j];
 		}
 	}
-	T.Tranc();
 }
 
- //find cube norm
+//find cube norm
 double	cube_norm(const Matrix& A)
 {
 	double	norm = 0;
@@ -56,14 +79,14 @@ double	cube_norm(const Matrix& A)
 	for (int i = 0; i < A.size; i++)
 	{
 		for (int j = 0; j < A.size; j++)
-			sum += fabs(A.value[A.mymap[i]-A.value +j]);
+			sum += fabs(A.value[A.mymap[i] - A.value + j]);
 		if (sum > norm)
 			norm = sum;
 		sum = 0;
 	}
 	return (norm);
 }
- 
+
 //find octahedral norm
 double	octah_norm(const Matrix& A)
 {
@@ -73,7 +96,7 @@ double	octah_norm(const Matrix& A)
 	for (int i = 0; i < A.size; i++)
 	{
 		for (int j = 0; j < A.size; j++)
-			sum += fabs(A.value[A.mymap[i]-A.value +j]);
+			sum += fabs(A.value[A.mymap[j] - A.value + i]);
 		if (sum > norm)
 			norm = sum;
 		sum = 0;
@@ -89,7 +112,7 @@ double	sfer_norm(const Matrix& A)
 	for (int i = 0; i < A.size; i++)
 	{
 		for (int j = 0; j < A.size; j++)
-			sum += fabs(A.value[A.mymap[i]-A.value +j]);
+			sum += fabs(A.value[A.mymap[i] - A.value + j]);
 	}
 	return (sqrt(sum));
 }

@@ -1,3 +1,4 @@
+#pragma once
 //#define double float
 #include <iostream>
 #include <iomanip>
@@ -17,7 +18,7 @@ public:
 	Matrix()
 	{
 		std::ifstream file;
-		file.open("matrixexample.txt");
+		file.open("matrix.txt");
 		file >> size;
 		value = new double[size*size];
 		mymap = new double*[size];
@@ -128,7 +129,7 @@ void Matrix::print()
 	{
 		for (int j = 0; j != size; j++)
 		{
-			if (value[mymap[n] - value + j] < EPS)
+			if (fabs(value[mymap[n] - value + j]) < EPS)
 				std::cout << std::setw(8) << 0 << "\t";
 			else
 				std::cout << std::setw(8) << value[mymap[n] - value + j] << "\t";
