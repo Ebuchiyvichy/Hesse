@@ -69,6 +69,10 @@ int	main()
 	if (degenerate_matrix(A) == false)
 	{
 		GaussLeft(A);
+		std::cout << "Vector in Gauss x:" << std::endl;
+		for (int i = 0; i != A.size; i++)
+			std::cout << std::setw(8) << A.rvalue[i] << std::endl;
+		std::cout << std::endl;
 		//find inverse matrix with Gauss
 		A_cpy.print();
 		Matrix E(A_cpy.size, 1);

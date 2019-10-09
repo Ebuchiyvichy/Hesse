@@ -204,8 +204,8 @@ void GaussRight(Matrix &A)
 		delim(A, k);
 		vych(A, k);
 	}
-	std::cout << "Matrix A after straight run of Gauss:" << std::endl;
-	A.print();
+//	std::cout << "Matrix A after straight run of Gauss:" << std::endl;
+//	A.print();
 }
 
 void GaussLeft(Matrix &A)
@@ -216,75 +216,26 @@ void GaussLeft(Matrix &A)
 			A.rvalue[i] = A.rvalue[i] - A.value[A.mymap[i] - A.value + j] * A.rvalue[j];
 		A.rvalue[i] = A.rvalue[i] / A.value[A.mymap[i] - A.value + i];
 	}
-	std::cout << "Vector in Gauss x:" << std::endl;
-	for (int i = 0; i != A.size; i++)
-		std::cout << std::setw(8) << A.rvalue[i] << std::endl;
-	std::cout << std::endl;
 }
-//doesn't work
+
 void reversematrixgauss(Matrix &A, Matrix &E)
 {
-	for (int k = 0; k < A.size; k++)
+	for (int i = 0; i < A.size; i++)
 	{
-		//search max in column
-		double max = A.value[A.mymap[k] - A.value + k];
-		int maxstring = k;
-		for (int i = k; i < A.size; i++)
+		Matrix A_cpy(A);
+		for (int j = 0; j < A.size; j++)
 		{
-			if (A.value[A.mymap[i] - A.value + k] > max)
-			{
-				max = A.value[A.mymap[i] - A.value + k];
-				maxstring = i;
-			}
+			if (j == i)
+				A_cpy.rvalue[j] = 1;
+			else
+				A_cpy.rvalue[j] = 0;
 		}
-		//change strings for matrix A
-		int temparr = (A.mymap[k] - A.value);
-		A.mymap[k] = &(A.value[A.mymap[maxstring] - A.value]);
-		A.mymap[maxstring] = &(A.value[temparr]);
-		//change for matrix E right 
-		temparr = (E.mymap[k] - E.value);
-		E.mymap[k] = &(E.value[E.mymap[maxstring] - E.value]);
-		E.mymap[maxstring] = &(E.value[temparr]);
-		//delim 
-		int i = k;
-		double temp = A.value[A.mymap[i] - A.value + k];
-		for (int j = k; j < A.size; j++)
+			GaussRight(A_cpy);
+			GaussLeft(A_cpy);
+		for (int j = 0; j < A.size; j++)
 		{
-			A.value[A.mymap[i] - A.value + j] = A.value[A.mymap[i] - A.value + j] / temp;
-			E.value[E.mymap[i] - E.value + j] = E.value[E.mymap[i] - E.value + j] / temp;
-		}
-		//difference
-		for (int i = (k + 1); i < A.size; i++)
-		{
-			//columns
-			temp = A.value[A.mymap[i] - A.value + k];
-			for (int j = 0; j < A.size; j++)
-			{
-				A.value[A.mymap[i] - A.value + j] -= temp * A.value[A.mymap[k] - A.value + j];
-				E.value[E.mymap[i] - E.value + j] -= temp * E.value[E.mymap[k] - E.value + j];
-			}
+			E.value[E.mymap[i] - E.value + j] = A_cpy.rvalue[j];
 		}
 	}
-	
-/*	for (int k = A.size - 1; k > 0; k--)
-	{
-		double	tmp1 = A.value[A.mymap[k] - A.value + k];
-		E.value[E.mymap[k] - E.value + k] = E.value[E.mymap[k] - E.value + k] / tmp1;
-		A.value[A.mymap[k] - A.value + k] = A.value[A.mymap[k] - A.value + k] / tmp1;
-		for (int j = 0; j < k; j++)
-		{
-			double	tmp = A.value[A.mymap[j] - A.value + k] / tmp1;
-			A.value[A.mymap[j] - A.value + k] = A.value[A.mymap[j] - A.value + k] - tmp * A.value[A.mymap[k] - A.value + k];
-			E.value[E.mymap[j] - E.value + k] = E.value[E.mymap[j] - E.value + k] - tmp * E.value[E.mymap[k] - E.value + k];
-		}
-	}*/
-
-	for (int k = A.size - 1; k >= 0; k--)
-	{
-		for (int j = k - 1; j >= 0; j--)
-		{
-			for (int i = A.size - 1; i > j; i--)
-				E.value[E.mymap[j] - E.value + k] -= A.value[A.mymap[j] - A.value + i] * E.value[E.mymap[i] - E.value + k];
-		}
-	}
+	E.Tranc();
 }
