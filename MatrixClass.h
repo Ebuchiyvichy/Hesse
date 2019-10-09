@@ -266,7 +266,7 @@ void reversematrixgauss(Matrix &A, Matrix &E)
 		}
 	}
 	
-	for (int k = A.size - 1; k > 0; k--)
+/*	for (int k = A.size - 1; k > 0; k--)
 	{
 		double	tmp1 = A.value[A.mymap[k] - A.value + k];
 		E.value[E.mymap[k] - E.value + k] = E.value[E.mymap[k] - E.value + k] / tmp1;
@@ -276,6 +276,15 @@ void reversematrixgauss(Matrix &A, Matrix &E)
 			double	tmp = A.value[A.mymap[j] - A.value + k] / tmp1;
 			A.value[A.mymap[j] - A.value + k] = A.value[A.mymap[j] - A.value + k] - tmp * A.value[A.mymap[k] - A.value + k];
 			E.value[E.mymap[j] - E.value + k] = E.value[E.mymap[j] - E.value + k] - tmp * E.value[E.mymap[k] - E.value + k];
+		}
+	}*/
+
+	for (int k = A.size - 1; k >= 0; k--)
+	{
+		for (int j = k - 1; j >= 0; j--)
+		{
+			for (int i = A.size - 1; i > j; i--)
+				E.value[E.mymap[j] - E.value + k] -= A.value[A.mymap[j] - A.value + i] * E.value[E.mymap[i] - E.value + k];
 		}
 	}
 }
