@@ -2,7 +2,7 @@
 
 #include "MatrixClass.h"
 
-double	*cpy_vector(double *tmp, double *x, int size)
+float	*cpy_vector(float *tmp, float *x, int size)
 {
 
 	for (int i = 0; i < size; i++)
@@ -19,9 +19,9 @@ bool	degenerate_matrix(const Matrix& R)
 }
 
 // reverse Hause
-double	*find_x(const Matrix& A, double *b_)
+float	*find_x(const Matrix& A, float *b_)
 {
-	double	*x = new double[A.size];
+	float	*x = new float[A.size];
 
 	for (int i = A.size - 1; i >= 0; i--)
 	{
@@ -36,9 +36,9 @@ double	*find_x(const Matrix& A, double *b_)
 // find matrix T
 void Matrix::QR_find_x(Matrix& A)
 {
-	double	c;
-	double	s;
-	double	tmp;
+	float	c;
+	float	s;
+	float	tmp;
 
 	for (int k = 0; k < size; k++)
 	{

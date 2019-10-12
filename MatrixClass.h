@@ -1,17 +1,17 @@
 #pragma once
-//#define double float
+//#define float float
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <cmath>
-double	EPS = 10e-8;
+float	EPS = 10e-8;
 
 class Matrix
 {
 public:
-	double	*value;
-	double	**mymap;
-	double	*rvalue;
+	float	*value;
+	float	**mymap;
+	float	*rvalue;
 	int		size;
 
 public:
@@ -20,10 +20,10 @@ public:
 		std::ifstream file;
 		file.open("matrix.txt");
 		file >> size;
-		value = new double[size*size];
-		mymap = new double*[size];
-		rvalue = new double[size];
-		double number;
+		value = new float[size*size];
+		mymap = new float*[size];
+		rvalue = new float[size];
+		float number;
 		int n = 0;
 
 		while (n != size)
@@ -47,9 +47,9 @@ public:
 	Matrix(const Matrix& A)
 	{
 		size = A.size;
-		value = new double[size*size];
-		mymap = new double*[size];
-		rvalue = new double[size];
+		value = new float[size*size];
+		mymap = new float*[size];
+		rvalue = new float[size];
 		for (int i = 0; i != (size*size); i++)
 		{
 			value[i] = A.value[i];
@@ -64,8 +64,8 @@ public:
 	Matrix(int s, int i = 1)
 	{
 		size = s;
-		value = new double[size*size];
-		mymap = new double*[size];
+		value = new float[size*size];
+		mymap = new float*[size];
 		rvalue = NULL;
 		for (int i = 0; i != (size*size); i++)
 		{
@@ -91,22 +91,22 @@ public:
 	void			print();
 
 	friend bool		degenerate_matrix(const Matrix& R);
-	friend double	*multi_vect(double* I, const Matrix& T);
+	friend float	*multi_vect(float* I, const Matrix& T);
 
 	//functions for QR
 	void			QR_find_x(Matrix& A);
 	void			inverse_matrix(const Matrix& R, Matrix& T);
-	friend double	*find_x(const Matrix& A, double *b_);
+	friend float	*find_x(const Matrix& A, float *b_);
 
 	//functions for norm
-	friend double	cube_norm(const Matrix& A);
-	friend double	octah_norm(const Matrix& A);
-	friend double	sfer_norm(const Matrix& A);
+	friend float	cube_norm(const Matrix& A);
+	friend float	octah_norm(const Matrix& A);
+	friend float	sfer_norm(const Matrix& A);
 
 	//functions for cond nbr
-	friend double	octah_estimate_number(double *b, const Matrix& R, const Matrix& T);
-	friend double	cube_estimate_number(double *b, const Matrix& R, const Matrix& T);
-	friend double	sfer_estimate_number(double *b, const Matrix& R, const Matrix& T);
+	friend float	octah_estimate_number(float *b, const Matrix& R, const Matrix& T);
+	friend float	cube_estimate_number(float *b, const Matrix& R, const Matrix& T);
+	friend float	sfer_estimate_number(float *b, const Matrix& R, const Matrix& T);
 
 	//functions for Gauss
 	friend void		GaussLeft(Matrix& A);
@@ -115,13 +115,13 @@ public:
 	friend void		GaussRight(Matrix &A);
 };
 
-double	*cpy_vector(double *tmp, double *x, int size);
-double	*abs_diff_vector(double *a, double *b, int DIM);
+float	*cpy_vector(float *tmp, float *x, int size);
+float	*abs_diff_vector(float *a, float *b, int DIM);
 
 //functions for vector norm
-double	octah_vect_norm(double *x, int size);
-double	cube_vect_norm(double *x, int size);
-double	sfer_vect_norm(double *x, int DIM);
+float	octah_vect_norm(float *x, int size);
+float	cube_vect_norm(float *x, int size);
+float	sfer_vect_norm(float *x, int DIM);
 
 void Matrix::print()
 {
@@ -141,7 +141,7 @@ void Matrix::print()
 
 void Matrix::Tranc()
 { // i - string, j - column
-	double temp;
+	float temp;
 
 	for (int i = 0; i != size; i++)
 	{
@@ -157,7 +157,7 @@ void Matrix::Tranc()
 void delim(Matrix &A, int k)
 {
 	int i = k;
-	double temp = A.value[A.mymap[i] - A.value + k];
+	float temp = A.value[A.mymap[i] - A.value + k];
 	for (int j = k; j != A.size; j++)
 	{
 		A.value[A.mymap[i] - A.value + j] = A.value[A.mymap[i] - A.value + j] / temp;
@@ -170,7 +170,7 @@ void vych(Matrix &A, int k)
 	for (int i = (k + 1); i != A.size; i++)
 	{
 		//columns
-		double temp = A.value[A.mymap[i] - A.value + k];
+		float temp = A.value[A.mymap[i] - A.value + k];
 		for (int j = 0; j != A.size; j++)
 			A.value[A.mymap[i] - A.value + j] = A.value[A.mymap[i] - A.value + j] - temp * A.value[A.mymap[k] - A.value + j];
 		A.rvalue[i] -= temp * A.rvalue[k];
@@ -183,7 +183,7 @@ void GaussRight(Matrix &A)
 	for (int k = 0; k != A.size; k++)
 	{
 		//search max in column
-		double max = A.value[A.mymap[k] - A.value + k];
+		float max = A.value[A.mymap[k] - A.value + k];
 		int maxstring = k;
 		for (int i = k; i != A.size; i++)
 		{
@@ -194,7 +194,7 @@ void GaussRight(Matrix &A)
 			}
 		}
 		//change rvalue
-		double temp = A.rvalue[k];
+		float temp = A.rvalue[k];
 		A.rvalue[k] = A.rvalue[maxstring];
 		A.rvalue[maxstring] = temp;
 		// change strings

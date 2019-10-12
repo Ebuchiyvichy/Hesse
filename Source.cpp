@@ -6,8 +6,8 @@ int	main()
 	Matrix	R;
 	Matrix	A_cpy;	//copy of A matrix for inverse Gauss
 	Matrix	T(R.size, 1);
-	double	*b_ = NULL;
-	double	*x = NULL;
+	float	*b_ = NULL;
+	float	*x = NULL;
 
 	std::cout << "matrix A:" << std::endl;
 	A.print();
@@ -73,8 +73,14 @@ int	main()
 		for (int i = 0; i != A.size; i++)
 			std::cout << std::setw(8) << A.rvalue[i] << std::endl;
 		std::cout << std::endl;
+
+		std::cout << "Residual vector with cube norme = " << cube_vect_norm(diff_vector(A_cpy.rvalue, multi_vect(A.rvalue, A_cpy), A.size), A.size) << std::endl;
+		std::cout << std::endl;
+		std::cout << "Residual vector with octahedral norme = " << octah_vect_norm(diff_vector(A_cpy.rvalue, multi_vect(A.rvalue, A_cpy), A.size), A.size) << std::endl;
+		std::cout << std::endl;
+		std::cout << "Residual vector with sferical norme = " << sfer_vect_norm(diff_vector(A_cpy.rvalue, multi_vect(A.rvalue, A_cpy), A.size), A.size) << std::endl;
+		std::cout << std::endl;
 		//find inverse matrix with Gauss
-		A_cpy.print();
 		Matrix E(A_cpy.size, 1);
 		reversematrixgauss(A_cpy, E);
 		std::cout << "Inverse matrix with Gauss method A_:" << std::endl;

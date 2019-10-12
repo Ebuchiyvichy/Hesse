@@ -3,11 +3,11 @@
 #include "MatrixClass.h"
 
 //multiply matrix * vector
-double	*multi_vect(double* I, const Matrix& T)
+float	*multi_vect(float* I, const Matrix& T)
 {
-	double *tmp;
+	float *tmp;
 
-	tmp = new double[T.size];
+	tmp = new float[T.size];
 	for (int i = 0; i < T.size; i++)
 		tmp[i] = 0;
 	for (int j = 0; j < T.size; j++)
@@ -19,33 +19,32 @@ double	*multi_vect(double* I, const Matrix& T)
 //find inverse matrix
 void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 {
-/*	
 	//with Hausse
-	double *x;
-	double *y;
-	x = new double [T.size];
-	y = new double [T.size];
+	float *x;
+	float *y;
+	x = new float [T.size];
+	y = new float [T.size];
 	Matrix E(R.size, 1);
 
 	for (int i = 0; i < T.size; i++)
 	{
-	for (int j = 0; j < T.size; j++)
-	{
-	if (j == i)
-	y[j] = 1;
-	else
-	y[j] = 0;
-	}
-	x = find_x(R, multi_vect(y, T));
-	for (int j = 0; j < T.size; j++)
-	{
-	value[mymap[i] - value + j] = x[j];
-	}
+		for (int j = 0; j < T.size; j++)
+		{
+			if (j == i)
+				y[j] = 1;
+			else
+				y[j] = 0;
+		}
+		x = find_x(R, multi_vect(y, T));
+		for (int j = 0; j < T.size; j++)
+		{
+			value[mymap[i] - value + j] = x[j];
+		}
 	}
 	Tranc();
-*/	
-
-	//with inverse triangle matrix
+	delete[] x;
+	delete[] y;
+/*	//with inverse triangle matrix
 	Matrix E(R.size, 1);
 	for (int k = R.size - 1; k >= 0; k--)
 	{
@@ -57,17 +56,16 @@ void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 				E.value[E.mymap[j] - E.value + k] /= R.value[R.mymap[j] - R.value + j];
 			}	
 	}
-/*	for (int k = 0; k < R.size; k++)
-	{
-		value[mymap[k] - value + k] = value[mymap[k] - value + k] / R.value[R.mymap[k] - R.value + k];
-		for (int j = k - 1; j >= 0; j--)
-		{
-			for (int i = R.size - 1; i > j; i--)
-				value[mymap[j] - value + k] -= R.value[R.mymap[j] - R.value + i] * value[mymap[i] - value + k];
-			value[mymap[j] - value + k] /= R.value[R.mymap[j] - R.value + j];
-		}
-	}
-	*/
+	//for (int k = 0; k < R.size; k++)
+	//{
+	//	value[mymap[k] - value + k] = value[mymap[k] - value + k] / R.value[R.mymap[k] - R.value + k];
+	//	for (int j = k - 1; j >= 0; j--)
+	//	{
+	//		for (int i = R.size - 1; i > j; i--)
+	//			value[mymap[j] - value + k] -= R.value[R.mymap[j] - R.value + i] * value[mymap[i] - value + k];
+	//		value[mymap[j] - value + k] /= R.value[R.mymap[j] - R.value + j];
+	//	}
+	//}
 	for (int i = 0; i < R.size; i++)
 	{
 		for (int j = 0; j < R.size; j++)
@@ -76,14 +74,14 @@ void Matrix::inverse_matrix(const Matrix& R, Matrix& T)
 			for (int k = 0; k < R.size; k++)
 				value[mymap[i] - value + j] = E.value[E.mymap[i] - E.value + k] * T.value[T.mymap[k] - T.value + j];
 		}
-	}
+	}*/
 }
 
 //find cube norm
-double	cube_norm(const Matrix& A)
+float	cube_norm(const Matrix& A)
 {
-	double	norm = 0;
-	double	sum = 0;
+	float	norm = 0;
+	float	sum = 0;
 
 	for (int i = 0; i < A.size; i++)
 	{
@@ -97,10 +95,10 @@ double	cube_norm(const Matrix& A)
 }
 
 //find octahedral norm
-double	octah_norm(const Matrix& A)
+float	octah_norm(const Matrix& A)
 {
-	double	norm = 0;
-	double	sum = 0;
+	float	norm = 0;
+	float	sum = 0;
 
 	for (int i = 0; i < A.size; i++)
 	{
@@ -114,9 +112,9 @@ double	octah_norm(const Matrix& A)
 }
 
 //find sferical norm
-double	sfer_norm(const Matrix& A)
+float	sfer_norm(const Matrix& A)
 {
-	double	sum = 0;
+	float	sum = 0;
 
 	for (int i = 0; i < A.size; i++)
 	{
