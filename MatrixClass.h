@@ -185,7 +185,7 @@ void GaussRight(Matrix &A)
 		//search max in column
 		float max = A.value[A.mymap[k] - A.value + k];
 		int maxstring = k;
-		for (int i = k; i != A.size; i++)
+		for (int i = k; i < A.size; i++)
 		{
 			if (A.value[A.mymap[i] - A.value + k] > max)
 			{
@@ -204,8 +204,6 @@ void GaussRight(Matrix &A)
 		delim(A, k);
 		vych(A, k);
 	}
-//	std::cout << "Matrix A after straight run of Gauss:" << std::endl;
-//	A.print();
 }
 
 void GaussLeft(Matrix &A)

@@ -59,10 +59,11 @@ float	cube_estimate_number(float *b, const Matrix& R, const Matrix& T)
 {
 	float	pert = 0.1;
 	float	*b_, *tmp = new float[T.size];
-	float	*x, *x_;
-	float	*dx;
+	float	*x, *x_ = NULL;
+	float	*dx = NULL;
 	float	my_dx = 0;
 	float	*db;
+	float	nbr;
 
 	b_ = multi_vect(b, T);
 	x = find_x(R, b_);
@@ -81,7 +82,15 @@ float	cube_estimate_number(float *b, const Matrix& R, const Matrix& T)
 		delete[] b_;
 	}
 	db = abs_diff_vector(tmp, b, T.size);
-	return ((my_dx / cube_vect_norm(x, T.size)) / (cube_vect_norm(db, T.size) / cube_vect_norm(b, T.size)));
+	nbr = (my_dx / cube_vect_norm(x, T.size)) / (cube_vect_norm(db, T.size) / cube_vect_norm(b, T.size));
+	delete[] x;
+	if (x_)
+		delete[] x_;
+	if (dx)
+		delete[] dx;
+	delete[] db;
+	delete[] tmp;
+	return (nbr);
 }
 
 //for octahedral norme
@@ -90,10 +99,11 @@ float	octah_estimate_number(float *b, const Matrix& R, const Matrix& T)
 	float	pert = 0.1;
 	int DIM = T.size;
 	float	*b_, *tmp = new float[DIM];
-	float	*x, *x_;
-	float	*dx;
+	float	*x, *x_ = NULL;
+	float	*dx = NULL;
 	float	my_dx = 0;
 	float	*db;
+	float	nbr;
 
 	b_ = multi_vect(b, T);
 	x = find_x(R, b_);
@@ -111,7 +121,15 @@ float	octah_estimate_number(float *b, const Matrix& R, const Matrix& T)
 			my_dx = octah_vect_norm(dx, DIM);
 	}
 	db = abs_diff_vector(tmp, b, DIM);
-	return ((my_dx / octah_vect_norm(x, DIM)) / (octah_vect_norm(db, DIM) / octah_vect_norm(b, DIM)));
+	nbr = (my_dx / octah_vect_norm(x, T.size)) / (octah_vect_norm(db, T.size) / octah_vect_norm(b, T.size));
+	delete[] tmp;
+	delete[] x;
+	if (x_)
+		delete[] x_;
+	if (dx)
+		delete[] dx;
+	delete[] db;
+	return (nbr);
 }
 
 //for sferical norm
@@ -120,10 +138,11 @@ float	sfer_estimate_number(float *b, const Matrix& R, const Matrix& T)
 	float	pert = 0.1;
 	int DIM = T.size;
 	float	*b_, *tmp = new float[DIM];
-	float	*x, *x_;
-	float	*dx;
+	float	*x, *x_ = NULL;
+	float	*dx = NULL;
 	float	my_dx = 0;
 	float	*db;
+	float	nbr;
 
 	b_ = multi_vect(b, T);
 	x = find_x(R, b_);
@@ -142,5 +161,13 @@ float	sfer_estimate_number(float *b, const Matrix& R, const Matrix& T)
 		delete[] b_;
 	}
 	db = abs_diff_vector(tmp, b, DIM);
-	return ((my_dx / sfer_vect_norm(x, DIM)) / (sfer_vect_norm(db, DIM) / sfer_vect_norm(b, DIM)));
+	nbr = (my_dx / sfer_vect_norm(x, T.size)) / (sfer_vect_norm(db, T.size) / sfer_vect_norm(b, T.size));
+	delete[] tmp;
+	delete[] x;
+	if (x_)
+		delete[] x_;
+	if (dx)
+		delete[] dx;
+	delete[] db;
+	return (nbr);
 }
